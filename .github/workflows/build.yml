@@ -87,5 +87,9 @@ jobs:  # jobs 顶级键，包含所有 job
       uses: actions/upload-artifact@v4
       with:
         name: haproxy-static-musl
-        path: haproxy-3.3.0/haproxy
+        path: |
+          haproxy-3.3.0/haproxy
+          /usr/lib/libjemalloc.so.2
+          /lib/libc.musl-x86_64.so.1
+          /lib/ld-musl-x86_64.so.1
         retention-days: 30
