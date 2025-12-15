@@ -86,8 +86,8 @@ jobs:  # jobs 顶级键，包含所有 job
 
     - name: Build HAProxy (static)  # 静态构建 HAProxy
       run: |
-        HAPROXY_VERSION=3.2.1
-        wget https://www.haproxy.org/download/3.2/src/haproxy-${HAPROXY_VERSION}.tar.gz
+        HAPROXY_VERSION=3.3.0
+        wget https://www.haproxy.org/download/3.3/src/haproxy-${HAPROXY_VERSION}.tar.gz
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
         # 设置环境变量 LDFLAGS 和 CC，避免 make 解析错误
@@ -105,7 +105,7 @@ jobs:  # jobs 顶级键，包含所有 job
       uses: actions/upload-artifact@v4
       with:
         name: haproxy-static-buster
-        path: haproxy-3.2.1/haproxy
+        path: haproxy-3.3.0/haproxy
         retention-days: 30
 
   # bullseye job：Debian 11，依赖 buster 成功
@@ -173,8 +173,8 @@ jobs:  # jobs 顶级键，包含所有 job
 
     - name: Build HAProxy (static)  # 静态构建 HAProxy
       run: |
-        HAPROXY_VERSION=3.2.1
-        wget https://www.haproxy.org/download/3.2/src/haproxy-${HAPROXY_VERSION}.tar.gz
+        HAPROXY_VERSION=3.3.0
+        wget https://www.haproxy.org/download/3.3/src/haproxy-${HAPROXY_VERSION}.tar.gz
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
         export CC="gcc"
@@ -191,7 +191,7 @@ jobs:  # jobs 顶级键，包含所有 job
       uses: actions/upload-artifact@v4
       with:
         name: haproxy-static-bullseye
-        path: haproxy-3.2.1/haproxy
+        path: haproxy-3.3.0/haproxy
         retention-days: 30
 
   # bookworm job：Debian 12，依赖 bullseye 成功
@@ -259,8 +259,8 @@ jobs:  # jobs 顶级键，包含所有 job
 
     - name: Build HAProxy (static)  # 静态构建 HAProxy
       run: |
-        HAPROXY_VERSION=3.2.1
-        wget https://www.haproxy.org/download/3.2/src/haproxy-${HAPROXY_VERSION}.tar.gz
+        HAPROXY_VERSION=3.3.0
+        wget https://www.haproxy.org/download/3.3/src/haproxy-${HAPROXY_VERSION}.tar.gz
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
         export CC="gcc"
@@ -277,7 +277,7 @@ jobs:  # jobs 顶级键，包含所有 job
       uses: actions/upload-artifact@v4
       with:
         name: haproxy-static-bookworm
-        path: haproxy-3.2.1/haproxy
+        path: haproxy-3.3.0/haproxy
         retention-days: 30
 
   # trixie job：Debian 13，依赖 bookworm 成功
@@ -345,8 +345,8 @@ jobs:  # jobs 顶级键，包含所有 job
 
     - name: Build HAProxy (static)  # 静态构建 HAProxy
       run: |
-        HAPROXY_VERSION=3.2.1
-        wget https://www.haproxy.org/download/3.2/src/haproxy-${HAPROXY_VERSION}.tar.gz
+        HAPROXY_VERSION=3.3.0
+        wget https://www.haproxy.org/download/3.3/src/haproxy-${HAPROXY_VERSION}.tar.gz
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
         export CC="gcc"
@@ -363,5 +363,5 @@ jobs:  # jobs 顶级键，包含所有 job
       uses: actions/upload-artifact@v4
       with:
         name: haproxy-static-trixie
-        path: haproxy-3.2.1/haproxy
+        path: haproxy-3.3.0/haproxy
         retention-days: 30
