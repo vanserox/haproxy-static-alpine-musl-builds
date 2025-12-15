@@ -69,7 +69,6 @@ jobs:  # jobs 顶级键，包含所有 job
         wget https://www.haproxy.org/download/3.3/src/haproxy-${HAPROXY_VERSION}.tar.gz
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
-        sed -i "s#-Wl,-Bdynamic##g" Makefile
         export CC="gcc"
         make TARGET=linux-musl \
              CFLAGS="-O3 -no-pie -static" \
@@ -87,6 +86,6 @@ jobs:  # jobs 顶级键，包含所有 job
     - name: Prepare and upload binary artifact  # 上传二进制 artifact
       uses: actions/upload-artifact@v4
       with:
-        name: haproxy-static-trixie
+        name: haproxy-static-musl
         path: haproxy-3.3.0/haproxy
         retention-days: 30
