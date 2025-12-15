@@ -9,19 +9,17 @@ on:  # 触发条件
     types: [ created ]
 
 jobs:  # jobs 顶级键，包含所有 job
-  # trixie job：Debian 13
-  build-trixie:
+  build-musl:
     runs-on: ubuntu-latest
-    container: debian:trixie  # 使用 Debian 13 镜像
+    container: alpine:latest
     steps:
     - name: Checkout repository  # 检出仓库代码
       uses: actions/checkout@v4
 
     - name: Install build dependencies  # 安装构建依赖
       run: |
-        apt-get update
-        apt-get install -y build-essential wget make tar perl git autoconf automake m4 libtool cmake
-
+        apk add --no-cache ca-certificates jemalloc build-deps gcc libc-dev linux-headers make tar curl shadow cmake git wget perl autoconf automake m4 libtool
+    
     - name: Build LUA (static)  # 构建 LUA 
       run: |
         LUA_VERSION=5.4.8
@@ -73,7 +71,7 @@ jobs:  # jobs 顶级键，包含所有 job
         cd haproxy-${HAPROXY_VERSION}
         sed -i "s#-Wl,-Bdynamic##g" Makefile
         export CC="gcc"
-        make TARGET=linux-glibc \
+        make TARGET=linux-musl \
              CFLAGS="-O3 -static" \
              CXXFLAGS="-O3 -static" \
              LDFLAGS="-static -L/opt/awslc/lib -Wl,-rpath,/opt/awslc/lib -L/opt/pcre2-static/lib -s" \
@@ -82,7 +80,7 @@ jobs:  # jobs 顶级键，包含所有 job
              USE_LUA=1 LUA_INC=/usr/local/include LUA_LIB=/usr/local/lib LUA_LIB_NAME=lua \
              USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 USE_SLZ=1 \
              USE_PCRE2=1 USE_PCRE2_JIT=1 USE_STATIC_PCRE2=1 PCRE2_INC=/opt/pcre2-static/include PCRE2_LIB=/opt/pcre2-static/lib \
-             USE_THREAD=1 USE_LINUX_SPLICE=1 USE_LIBCRYPT= USE_CRYPT_H= \
+             USE_PTHREAD_EMULATION=1 USE_LINUX_SPLICE=1 USE_LIBCRYPT= USE_CRYPT_H= \
              -j$(nproc --ignore=2) all
         cd ..
 
