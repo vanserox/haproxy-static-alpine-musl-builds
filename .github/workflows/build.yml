@@ -46,7 +46,7 @@ jobs:  # jobs 顶级键，包含所有 job
         AWSLC_URL=https://github.com/aws/aws-lc.git
         AWSLC_TAG=v1.66.0
         git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}"
-        cd asw-lc
+        cd aws-lc
         mkdir build
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DDISABLE_GO=1 -DDISABLE_PERL=1 -DBUILD_TESTING=0 -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_INSTALL_PREFIX=/opt/awslc/ ..
