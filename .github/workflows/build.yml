@@ -41,17 +41,6 @@ jobs:  # jobs 顶级键，包含所有 job
         make install
         cd ..
 
-    - name: Build Zlib (static)  # 静态构建 Zlib
-      run: |
-        ZLIB_VERSION=1.3.1
-        wget https://zlib.net/zlib-${ZLIB_VERSION}.tar.gz
-        tar xzf zlib-${ZLIB_VERSION}.tar.gz
-        cd zlib-${ZLIB_VERSION}
-        ./configure --prefix=/opt/zlib-static --static
-        make -j$(nproc)
-        make install
-        cd ..
-
     - name: Build OpenSSL (static)  # 静态构建 OpenSSL
       run: |
         OPENSSL_VERSION=3.5.4
@@ -96,11 +85,10 @@ jobs:  # jobs 顶级键，包含所有 job
         tar xzf haproxy-${HAPROXY_VERSION}.tar.gz
         cd haproxy-${HAPROXY_VERSION}
         export CC="gcc"
-        export LDFLAGS="-static -L/opt/openssl-static/lib -L/opt/zlib-static/lib -L/opt/pcre2-static/lib -lssl -lcrypto -lc -ldl -Wl,-static -static -static-libgcc -s"  # 添加 -ldl 依赖
+        export LDFLAGS="-static -L/opt/openssl-static/lib -L/opt/pcre2-static/lib -lssl -lcrypto -lc -ldl -Wl,-static -static -static-libgcc -s"  # 添加 -ldl 依赖
         make TARGET=linux-glibc \
              ADDLIB="-ljemalloc $(jemalloc-config --libs)" \
              USE_OPENSSL=1 SSL_INC=/opt/openssl-static/include SSL_LIB=/opt/openssl-static/lib \
-             USE_ZLIB=1 ZLIB_INC=/opt/zlib-static/include ZLIB_LIB=/opt/zlib-static/lib \
              USE_LUA=1 LUA_INC=/usr/local/include LUA_LIB=/usr/local/lib LUA_LIB_NAME=lua \
              USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 USE_SLZ=1 \
              USE_PCRE2=1 USE_PCRE2_JIT=1 USE_STATIC_PCRE2=1 PCRE2_INC=/opt/pcre2-static/include PCRE2_LIB=/opt/pcre2-static/lib \
