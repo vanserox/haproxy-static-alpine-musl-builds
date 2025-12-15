@@ -44,7 +44,7 @@ jobs:  # jobs 顶级键，包含所有 job
     - name: Build AWS-LC (static)  # 静态构建 AWS-LC
       run: |
         AWSLC_URL=https://github.com/aws/aws-lc.git
-        AWSLC_TAG v1.66.0
+        AWSLC_TAG=v1.66.0
         git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}"
         cd asw-lc
         mkdir build
