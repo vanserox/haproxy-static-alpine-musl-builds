@@ -34,7 +34,7 @@ jobs:  # jobs 顶级键，包含所有 job
       run: |
         git clone -j "$(nproc)" --no-tags --shallow-submodules --recurse-submodules --depth 1 --single-branch 'https://github.com/facebook/jemalloc.git'
         cd jemalloc
-        CFLAGS="-static" LDFLAGS="-static" ./autogen.sh --prefix=/usr --disable-shared --enable-static --disable-cxx
+        CFLAGS="-fPIC" LDFLAGS="-static" ./autogen.sh --prefix=/usr --enable-shared --disable-static --disable-cxx
         make -j$(nproc)
         make install
         cd ..
@@ -75,7 +75,7 @@ jobs:  # jobs 顶级键，包含所有 job
              CFLAGS="-O3 -fPIE" \
              CXXFLAGS="-O3 -fPIE" \
              LDFLAGS="-static-pie -nolibc -Wl,-Bstatic -L/opt/awslc/lib -Wl,-rpath,/opt/awslc/lib -L/opt/pcre2-static/lib -s -L /usr/lib -l:libc.a" \
-             ADDLIB="" \
+             ADDLIB="-Wl,-Bdynamic -ljemalloc $(jemalloc-config --libs)" \
              USE_QUIC=1 USE_OPENSSL_AWSLC=1 SSL_INC=/opt/awslc/include SSL_LIB=/opt/awslc/lib64/ \
              USE_LUA=1 LUA_INC=/usr/local/include LUA_LIB=/usr/local/lib LUA_LIB_NAME=lua \
              USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 USE_SLZ=1 \
