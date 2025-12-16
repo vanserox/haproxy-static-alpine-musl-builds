@@ -34,6 +34,13 @@ jobs:  # jobs 顶级键，包含所有 job
         wget https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
         tar xzf lua-${LUA_VERSION}.tar.gz
         cd lua-${LUA_VERSION}
+        export CC=icc
+        export CXX=icpc
+        export LD=xild
+        export AR=xiar
+        export CFLAGS="-Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
+        export CXXFLAGS="-fPIC -Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
+        export LDFLAGS="-fPIC -Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
         make -j$(nproc) all
         make install
         cd ..
