@@ -11,7 +11,7 @@ on:  # 触发条件
 jobs:  # jobs 顶级键，包含所有 job
   build-musl:
     runs-on: ubuntu-latest
-    container: intel/cpp-essentials:latest
+    container: intel/cpp-essentials:2025.1.3-0-devel-ubuntu24.04
     steps:
     - name: Checkout repository  # 检出仓库代码
       uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:  # jobs 顶级键，包含所有 job
     - name: Install build dependencies  # 安装构建依赖
       run: |
         apt-get update
-        apk add --no-cache ca-certificates jemalloc build-deps gcc libc-dev linux-headers make tar curl shadow cmake git wget perl autoconf automake m4 libtool
+        apt-get install -y build-essential wget make tar perl git autoconf automake m4 libtool cmake
         export CC=icc CXX=icpc LD=xild AR=xiar CFLAGS="-Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
         export CXXFLAGS="-fPIC -Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
         export LDFLAGS="-fPIC -Ofast -fbuiltin -ipo -parallel -use-intel-optimized-headers -xCORE-AVX2 -qopt-prefetch -qopt-prefetch-issue-excl-hint -qopt-calloc -qopt-dynamic-align -qopt-multi-version-aggressive -vec-guard-write -unroll-aggressive -tbb -ipp -mkl -daal" 
